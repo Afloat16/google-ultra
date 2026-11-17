@@ -159,6 +159,9 @@ python3 ultra0.py accounts.txt --no-switch
 <td align="center"><b>8 群</b><br><img src="assets/wechat-group8.jpg" width="220" alt="8 群"></td>
 <td align="center"><b>9 群</b><br><img src="assets/wechat-group9.jpg" width="220" alt="9 群"></td>
 </tr>
+<tr>
+<td align="center"><b>10 群</b><br><img src="assets/wechat-group10.jpg" width="220" alt="10 群"></td>
+</tr>
 </table>
 
 ## 友链
