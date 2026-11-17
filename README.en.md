@@ -116,16 +116,21 @@ Accounts, passwords, and card numbers stay on your machine. Nothing is uploaded 
 
 Questions in English: open an issue. The chat groups are Chinese-language.
 
-## Disclaimer
+## Disclaimer and Terms of Use
 
-This repository exists for technical research and discussion: how Play Billing reports offers, and how a client parses what the server sends back.
+**What this is.** A security research note and interface analysis: how Google Play Billing behaves on the client side, plus a proof-of-concept script used to verify that behaviour. No service is offered here, and nothing is sold.
 
-- No accounts, no proxy purchasing, no cards are sold or provided here
-- You are responsible for anything you do with this code; the authors accept no liability
-- Check your local laws and Google's Terms of Service yourself — whether and how you use this is your call
-- If you disagree with any of the above, don't use the code
+**No affiliation.** This project is maintained by an individual and is not affiliated with, authorized by, endorsed by, or sponsored by Google LLC or any of its subsidiaries. Google, Google One, Google Play and Gemini are trademarks of Google LLC; names are used here only descriptively.
 
-Provided as-is under MIT, without warranty of any kind.
+**Risks you accept.** Using this code may violate Google's Terms of Service and lead to account restriction or termination. It may also violate the laws or regulations of your jurisdiction. Whether to use it, how to use it, and what follows from that are entirely your decisions and your responsibility. The authors give no legal advice and are not responsible for your conduct.
+
+**What this project does not do.** It does not supply accounts, does not purchase on anyone's behalf, does not sell payment instruments, and accepts no paid commissions. Nothing here is an inducement to do any of those things.
+
+**Limitation of liability.** The code is provided "as is" under the MIT License, without warranty of any kind, express or implied, including merchantability, fitness for a particular purpose and non-infringement. In no event shall the authors be liable for any direct, indirect, incidental, special or consequential damages arising from the use of or inability to use this project, including lost accounts, charges incurred, lost data or lost profits. Your sole remedy is to stop using it.
+
+**Rights-holder notices.** If a rights holder or its representative believes content here infringes their rights, contact the maintainer via a repository issue. Verified requests will be honoured by removing the material or the repository.
+
+**Do not use if you disagree.** If you do not accept any part of the above, stop using this project and delete any copies.
 
 ## License
 
