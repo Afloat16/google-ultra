@@ -141,7 +141,7 @@ python3 ultra0.py accounts.txt --no-switch
 
 ## 交流
 
-有问题进群问。八个群随便进一个，都满了就加我微信，备注「Ultra」，我拉你。
+技术讨论群，随便进一个。
 
 <table>
 <tr>
@@ -157,7 +157,7 @@ python3 ultra0.py accounts.txt --no-switch
 <tr>
 <td align="center"><b>7 群</b><br><img src="assets/wechat-group7.jpg" width="220" alt="7 群"></td>
 <td align="center"><b>8 群</b><br><img src="assets/wechat-group8.jpg" width="220" alt="8 群"></td>
-<td align="center"><b>都满了加我</b><br><img src="assets/wechat-admin.jpg" width="220" alt="都满了加我"></td>
+<td align="center"></td>
 </tr>
 </table>
 

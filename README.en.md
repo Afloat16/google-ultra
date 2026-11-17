@@ -114,7 +114,7 @@ Cancel the subscription before the trial ends. Play → profile → Payments & s
 
 Accounts, passwords, and card numbers stay on your machine. Nothing is uploaded anywhere. Reports land in `ultra0-report/`.
 
-Questions in English: open an issue. The chat groups are Chinese-language.
+Questions: open an issue. The chat groups are Chinese-language.
 
 ## Disclaimer and Terms of Use
 
