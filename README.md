@@ -1,5 +1,7 @@
 # google-ultra
 
+简体中文 | [English](README.en.md)
+
 Google One 的 AI Ultra 有个 12 个月免费试用的 offer，任何页面上都看不到，只存在于 Play 结算库（BillingClient）的返回值里。这个脚本把「查 offer → 拉起 Play 收银台 → 确认 0 元 → 开通」串成了一条命令。
 
 原理是借 Google One 自己的进程调 BillingClient，不需要 Xposed，不需要改 APK。
