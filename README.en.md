@@ -116,6 +116,17 @@ Accounts, passwords, and card numbers stay on your machine. Nothing is uploaded 
 
 Questions in English: open an issue. The chat groups are Chinese-language.
 
+## Disclaimer
+
+This repository exists for technical research and discussion: how Play Billing reports offers, and how a client parses what the server sends back.
+
+- No accounts, no proxy purchasing, no cards are sold or provided here
+- You are responsible for anything you do with this code; the authors accept no liability
+- Check your local laws and Google's Terms of Service yourself — whether and how you use this is your call
+- If you disagree with any of the above, don't use the code
+
+Provided as-is under MIT, without warranty of any kind.
+
 ## License
 
 MIT, see [LICENSE](LICENSE).
