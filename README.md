@@ -141,7 +141,7 @@ python3 ultra0.py accounts.txt --no-switch
 
 ## 交流
 
-技术讨论群，随便进一个。
+技术讨论群，随便进一个。**进群前先看[群规则](RULES.md)：禁止一切广告，违者移出。**
 
 <table>
 <tr>
