@@ -141,18 +141,22 @@ python3 ultra0.py accounts.txt --no-switch
 
 ## 交流
 
-有问题进群问。六个群随便进一个，都满了就加我微信，备注「Ultra」，我拉你。
+有问题进群问。七个群随便进一个，都满了就加我微信，备注「Ultra」，我拉你。
 
 <table>
 <tr>
-<td align="center"><b>2 群</b><br><img src="assets/wechat-group.jpg" width="240" alt="2 群"></td>
-<td align="center"><b>3 群</b><br><img src="assets/wechat-group3.jpg" width="240" alt="3 群"></td>
-<td align="center"><b>4 群</b><br><img src="assets/wechat-group4.jpg" width="240" alt="4 群"></td>
+<td align="center"><b>2 群</b><br><img src="assets/wechat-group.jpg" width="220" alt="2 群"></td>
+<td align="center"><b>3 群</b><br><img src="assets/wechat-group3.jpg" width="220" alt="3 群"></td>
+<td align="center"><b>4 群</b><br><img src="assets/wechat-group4.jpg" width="220" alt="4 群"></td>
 </tr>
 <tr>
-<td align="center"><b>5 群</b><br><img src="assets/wechat-group5.jpg" width="240" alt="5 群"></td>
-<td align="center"><b>6 群</b><br><img src="assets/wechat-group6.jpg" width="240" alt="6 群"></td>
-<td align="center"><b>都满了加我</b><br><img src="assets/wechat-admin.jpg" width="240" alt="微信"></td>
+<td align="center"><b>5 群</b><br><img src="assets/wechat-group5.jpg" width="220" alt="5 群"></td>
+<td align="center"><b>6 群</b><br><img src="assets/wechat-group6.jpg" width="220" alt="6 群"></td>
+<td align="center"><b>7 群</b><br><img src="assets/wechat-group7.jpg" width="220" alt="7 群"></td>
+</tr>
+<tr>
+<td align="center"><b>都满了加我</b><br><img src="assets/wechat-admin.jpg" width="220" alt="都满了加我"></td>
+<td align="center"></td><td align="center"></td>
 </tr>
 </table>
 
