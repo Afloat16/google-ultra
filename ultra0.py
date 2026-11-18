@@ -562,8 +562,13 @@ def process(email, password="", totp_secret="", add=True, card=None, plan="auto"
     rec.update(fr)
     if fr["launched"] and fr["launched"].get("code") == 0:
         rec["sheet"] = confirm_zero(password=password)
-        rec["subscription_page"] = verify()
-        rec["status"] = "subscribed" if "Ultra" in rec["subscription_page"] else "launched"
+        if rec["sheet"].get("ineligible"):
+            rec["status"] = "ineligible"
+        elif not rec["sheet"].get("confirmed"):
+            rec["status"] = "confirmation_required"
+        else:
+            rec["subscription_page"] = verify()
+            rec["status"] = "subscribed" if "Ultra" in rec["subscription_page"] else "launched"
     else:
         rec["status"] = "launch_failed"
     return rec
