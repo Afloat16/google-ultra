@@ -178,8 +178,13 @@ def ensure_network():
 
 # ---------- UI ----------
 def ui_xml() -> str:
-    sh("shell", "uiautomator dump /sdcard/ui.xml")
-    return sh("shell", "cat /sdcard/ui.xml")
+    # Never let a failed dump reuse an earlier screen before an input action.
+    sh("shell", "rm -f /sdcard/ui.xml", check=True)
+    sh("shell", "uiautomator dump /sdcard/ui.xml", check=True)
+    xml = sh("shell", "cat /sdcard/ui.xml", check=True)
+    if "<hierarchy" not in xml:
+        raise RuntimeError("无法读取当前界面，操作已停止")
+    return xml
 
 
 def nodes(xml: str):
