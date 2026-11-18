@@ -629,6 +629,12 @@ def main():
                     help="auto=两档都查挑最长；5x=Ultra 20TB；20x=Ultra 30TB")
     a = ap.parse_args()
 
+    if not a.check and not (a.account or a.accounts):
+        ap.print_help()
+        return 1
+    if a.account and a.accounts:
+        ap.error("--account 和账号文件不能同时使用")
+
     ADB = find_adb()
     if a.check:
         return do_check()
