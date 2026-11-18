@@ -107,11 +107,20 @@ def warn(msg):
 # ---------- 设备 ----------
 def pick_device():
     global SERIAL
+    selected = SERIAL
     out = sh("devices")
-    lines = [l for l in out.splitlines()[1:] if "\tdevice" in l]
-    if not lines:
-        sys.exit("❌ 没有检测到设备。请插好 USB、打开「USB 调试」，在手机上点「允许」。")
-    SERIAL = lines[0].split("\t")[0]
+    devices = {}
+    for line in out.splitlines()[1:]:
+        fields = line.split()
+        if len(fields) >= 2:
+            devices[fields[0]] = fields[1]
+    online = [serial for serial, state in devices.items() if state == "device"]
+    if selected:
+        if devices.get(selected) != "device":
+            sys.exit(f"❌ 指定设备 {selected} 不可用（{devices.get(selected, '未连接')}）")
+    elif len(online) != 1:
+        sys.exit("❌ 请连接一台已授权设备，或使用 --serial 明确选择设备")
+    SERIAL = selected or online[0]
     ok(f"设备已连接：{SERIAL}")
 
 
@@ -428,7 +437,7 @@ def build_js(plan: str = "auto") -> str:
 def run_trial(pid: int, wait=90, plan="auto") -> dict:
     import frida
     step("注入计费模块，查询免费试用")
-    dev = frida.get_usb_device(timeout=10)
+    dev = frida.get_device(SERIAL, timeout=10) if SERIAL else frida.get_usb_device(timeout=10)
     sess = dev.attach(pid)
     res = {"offers": [], "launched": None, "purchase": None, "errors": []}
 
@@ -629,13 +638,12 @@ def main():
                     help="auto=两档都查挑最长；5x=Ultra 20TB；20x=Ultra 30TB")
     a = ap.parse_args()
 
+    SERIAL = a.serial
     ADB = find_adb()
     if a.check:
         return do_check()
 
     pick_device()
-    if a.serial:
-        SERIAL = a.serial
     ensure_root()
     ensure_network()
     ensure_frida_server()
