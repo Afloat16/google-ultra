@@ -18,7 +18,7 @@ accounts.txt 每行一个号：
 脚本会自动：推 frida-server、推 BillingClient 模块、查 offer、用 eft-12month 拉起收银台，
 只有在确认金额为 0 时才点「订阅」。
 """
-import argparse, base64, hashlib, hmac, json, os, re, select, struct, subprocess, sys, threading, time
+import argparse, base64, hashlib, hmac, json, os, re, select, struct, subprocess, sys, tempfile, threading, time
 from pathlib import Path
 
 # 人工确认闸门：网页版点「我已完成，继续」，命令行按回车
@@ -615,6 +615,22 @@ def parse_card(parts) -> dict | None:
     }
 
 
+def write_report(path: Path, record: dict):
+    """Publish a private report atomically without following an existing symlink."""
+    descriptor, temporary = tempfile.mkstemp(prefix=".report-", suffix=".tmp", dir=path.parent)
+    try:
+        with os.fdopen(descriptor, "w", encoding="utf-8") as handle:
+            json.dump(record, handle, ensure_ascii=False, indent=2)
+            handle.flush()
+            os.fsync(handle.fileno())
+        os.replace(temporary, path)
+    finally:
+        try:
+            os.unlink(temporary)
+        except FileNotFoundError:
+            pass
+
+
 def main():
     global ADB, SERIAL
     ap = argparse.ArgumentParser(description="Google AI Ultra 0 元开通一键脚本")
@@ -641,7 +657,7 @@ def main():
     ensure_frida_server()
     ensure_module_apk()
 
-    REPORT_DIR.mkdir(exist_ok=True)
+    REPORT_DIR.mkdir(mode=0o700, exist_ok=True)
     rows = []
     if a.account:
         parts = a.account.split(":")
@@ -664,8 +680,7 @@ def main():
         except Exception as e:
             rec = {"email": email, "status": "exception", "error": str(e)[:200]}
         results.append(rec)
-        (REPORT_DIR / f"{email.split('@')[0]}.json").write_text(
-            json.dumps(rec, ensure_ascii=False, indent=2), encoding="utf-8")
+        write_report(REPORT_DIR / f"{email.split('@')[0]}.json", rec)
         print(f"   结果：{rec.get('status')}")
 
     print("\n" + "=" * 56)
