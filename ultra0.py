@@ -18,7 +18,7 @@ accounts.txt 每行一个号：
 脚本会自动：推 frida-server、推 BillingClient 模块、查 offer、用 eft-12month 拉起收银台，
 只有在确认金额为 0 时才点「订阅」。
 """
-import argparse, base64, hashlib, hmac, json, os, re, select, struct, subprocess, sys, threading, time
+import argparse, base64, hashlib, hmac, json, os, re, select, shlex, struct, subprocess, sys, threading, time
 from pathlib import Path
 
 # 人工确认闸门：网页版点「我已完成，继续」，命令行按回车
@@ -217,7 +217,7 @@ def tap_text(*needles, exact=False) -> bool:
 
 
 def type_text(s: str):
-    sh("shell", f"input text '{s.replace(' ', '%s')}'")
+    sh("shell", "input text " + shlex.quote(s.replace(" ", "%s")))
 
 
 def find_edit():
@@ -383,7 +383,7 @@ def switch_play(email) -> bool:
     sh("shell", f"am force-stop {VENDING}")
     sh("shell", f"am force-stop {PKG}")
     sh("shell", f"am start -n {VENDING}/com.google.android.finsky.activities.MainActivity "
-                f"--es authAccount {email}")
+                f"--es authAccount {shlex.quote(email)}")
     time.sleep(9)
     if current_play_account() == want:
         ok("Play 账号已确认"); return True
