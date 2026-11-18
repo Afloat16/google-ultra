@@ -489,7 +489,8 @@ def confirm_zero(wait=40, password="") -> dict:
                 out["price"] = m.group(0)
                 try:
                     if float(m.group(2).replace(",", "")) == 0:
-                        tap_text("订阅", "Subscribe")
+                        if not tap_text("订阅", "Subscribe"):
+                            return out
                         out["confirmed"] = True
                         ok("已确认 0 元订阅")
                         return out
@@ -504,7 +505,8 @@ def confirm_zero(wait=40, password="") -> dict:
             if (re.search(r"(US\$|HK\$|NT\$|\$)\s?0(\.00)?\b", text)
                     or "US$0/月" in text or "US$0.00" in text
                     or re.search(r"免费试用\s*\d+\s*(个月|年|mo|month)", text)):
-                tap_text("订阅", "Subscribe")
+                if not tap_text("订阅", "Subscribe"):
+                    return out
                 out["confirmed"] = True
                 ok("已确认免费试用")
                 return out
