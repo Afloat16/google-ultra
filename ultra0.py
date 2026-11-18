@@ -589,16 +589,19 @@ def do_check():
 
 
 def parse_accounts(path: Path):
-    """每行：邮箱----密码----辅助邮箱----2FA----卡号----有效期----CVC----持卡人----邮编"""
+    """Read account rows without changing password bytes or dropping fields."""
     rows = []
-    for line in path.read_text(encoding="utf-8").splitlines():
-        line = line.strip()
-        if not line or line.startswith("#"):
+    for number, line in enumerate(path.read_text(encoding="utf-8-sig").splitlines(), 1):
+        if not line.strip() or line.lstrip().startswith("#"):
             continue
-        parts = [p.strip() for p in line.split("----")]
-        while len(parts) < 9:
-            parts.append("")
-        rows.append(parts[:9])
+        parts = line.split("----")
+        if len(parts) > 9:
+            raise ValueError(f"账号文件第 {number} 行字段过多，请检查分隔符")
+        parts = [part if index == 1 else part.strip() for index, part in enumerate(parts)]
+        if not parts[0]:
+            raise ValueError(f"账号文件第 {number} 行缺少邮箱")
+        parts.extend([""] * (9 - len(parts)))
+        rows.append(parts)
     return rows
 
 
