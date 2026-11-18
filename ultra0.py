@@ -664,7 +664,8 @@ def main():
         except Exception as e:
             rec = {"email": email, "status": "exception", "error": str(e)[:200]}
         results.append(rec)
-        (REPORT_DIR / f"{email.split('@')[0]}.json").write_text(
+        report_id = hashlib.sha256(email.strip().lower().encode("utf-8")).hexdigest()
+        (REPORT_DIR / f"{report_id}.json").write_text(
             json.dumps(rec, ensure_ascii=False, indent=2), encoding="utf-8")
         print(f"   结果：{rec.get('status')}")
 
