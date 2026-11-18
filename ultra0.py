@@ -299,7 +299,7 @@ def add_account(email, password, totp_secret="") -> bool:
         if ("两步验证" in text or "2-Step" in text or "输入验证码" in text):
             if totp_secret and find_edit():
                 code = totp(totp_secret)
-                note(f"2FA 验证码：{code}")
+                note("正在输入两步验证码")
                 tap(*find_edit()); type_text(code); time.sleep(1)
                 tap_text("下一步", "Next"); time.sleep(8)
                 continue
