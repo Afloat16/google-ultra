@@ -27,26 +27,30 @@ WAITING = {"on": False, "msg": ""}
 
 
 def wait_human(msg: str, timeout: int = 600) -> bool:
-    """遇到人机验证时暂停，等人处理完再继续。"""
-    WAITING["on"] = True
-    WAITING["msg"] = msg
+    """Resume only after a real acknowledgement; timeout/EOF abort the flow."""
+    HUMAN_EVENT.clear()
+    WAITING.update(on=True, msg=msg)
     print(f"\n⏸  需要你操作：{msg}")
     print("   完成后按【回车】继续（网页版点「我已完成，继续」）", flush=True)
-    HUMAN_EVENT.clear()
-    end = time.time() + timeout
-    while time.time() < end:
-        if HUMAN_EVENT.is_set():
-            break
-        try:
-            r, _, _ = select.select([sys.stdin], [], [], 0.5)
-            if r:
-                sys.stdin.readline()
-                break
-        except Exception:
-            time.sleep(0.5)
-    WAITING["on"] = False
-    print("▶  继续执行", flush=True)
-    return True
+    deadline = time.monotonic() + timeout
+    try:
+        while time.monotonic() < deadline:
+            if HUMAN_EVENT.is_set():
+                print("▶  继续执行", flush=True)
+                return True
+            try:
+                ready, _, _ = select.select([sys.stdin], [], [], 0.5)
+            except (OSError, ValueError):
+                time.sleep(0.5)
+                continue
+            if ready:
+                if not sys.stdin.readline():
+                    raise EOFError("人工确认输入已关闭，操作已停止")
+                print("▶  继续执行", flush=True)
+                return True
+        raise TimeoutError("等待人工确认超时，操作已停止")
+    finally:
+        WAITING.update(on=False, msg="")
 
 # ---------- 常量 ----------
 PKG = "com.google.android.apps.subscriptions.red"   # Google One
@@ -544,6 +548,8 @@ def process(email, password="", totp_secret="", add=True, card=None, plan="auto"
             add_card(card)
         except Exception as e:
             warn(f"绑卡失败：{e}")
+            rec["status"] = "add_card_error"
+            return rec
     if no_switch:
         cur = current_play_account()
         if cur != email.lower():
