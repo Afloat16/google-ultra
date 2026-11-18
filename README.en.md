@@ -37,7 +37,7 @@ English page: https://gylive.github.io/google-ultra/web/en.html
 
 ## Option B — the script
 
-Needs a rooted Android phone connected over USB, plus Python and Frida.
+Needs a rooted Android phone connected over USB, plus Python and Frida. Network preflight only reports configuration; it does not clear the device proxy or stop VPN applications.
 
 ```bash
 pip3 install frida

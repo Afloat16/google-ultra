@@ -50,7 +50,7 @@ adb 用 Android SDK 里的 platform-tools。装好后 `adb devices` 能看到手
 
 ### 脚本版怎么用
 
-先自检一遍环境，它会检查设备、root、frida-server、推送计费模块，还会顺手关掉会拦截 Play 网络的代理和 Clash：
+先自检一遍环境，它会检查设备、root、frida-server、推送计费模块。网络检查只提示代理配置，不会修改设备代理或关闭网络应用：
 
 ```bash
 python3 ultra0.py --check

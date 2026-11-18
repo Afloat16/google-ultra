@@ -165,15 +165,13 @@ def ensure_module_apk():
 
 
 def ensure_network():
+    """Report network configuration without modifying the user's device."""
     proxy = sh("shell", "settings get global http_proxy")
-    if proxy and proxy != "null" and proxy != ":0":
-        sh("shell", "settings put global http_proxy :0")
-        warn(f"已清除设备代理（原为 {proxy}），避免网络不通")
-    # 关掉常见的 VPN 类应用，避免 fake-IP 导致 Play 连不上
-    for p in ("com.github.metacubex.clash.meta", "com.github.kr328.clash"):
-        if sh("shell", f"pm list packages | grep -q {p} && echo yes"):
-            sh("shell", f"am force-stop {p}")
-            warn(f"已临时关闭 {p}（它会拦截 Play 的网络）")
+    if proxy and proxy not in ("null", ":0"):
+        warn("检测到设备代理；如连接失败，请在设备上检查网络设置")
+    for package in ("com.github.metacubex.clash.meta", "com.github.kr328.clash"):
+        if sh("shell", f"pm list packages | grep -q {package} && echo yes"):
+            note("检测到网络代理应用；网络设置由你在设备上管理")
 
 
 # ---------- UI ----------
