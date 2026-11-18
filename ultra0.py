@@ -674,7 +674,7 @@ def main():
     for r in results:
         print(f"  {r['email']:<42} {r.get('status')}")
     print(f"\n明细已保存到 {REPORT_DIR.resolve()}")
-    return 0
+    return 0 if all(record.get("status") == "subscribed" for record in results) else 1
 
 
 entry = main
