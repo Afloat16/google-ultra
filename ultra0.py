@@ -231,7 +231,10 @@ def find_edit():
 def totp(secret: str, digits=6, period=30) -> str:
     if not secret:
         return ""
-    s = re.sub(r"[^A-Za-z2-7]", "", secret).upper()
+    s = re.sub(r"[\s-]", "", secret).upper()
+    if not re.fullmatch(r"[A-Z2-7]+={0,6}", s):
+        raise ValueError("2FA 密钥不是有效的 Base32 内容")
+    s = s.rstrip("=")
     s += "=" * ((8 - len(s) % 8) % 8)
     key = base64.b32decode(s)
     ctr = int(time.time()) // period
