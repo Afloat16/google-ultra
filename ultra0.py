@@ -433,7 +433,12 @@ def run_trial(pid: int, wait=90, plan="auto") -> dict:
     res = {"offers": [], "launched": None, "purchase": None, "errors": []}
 
     def on_msg(m, _):
-        p = m.get("payload") or {}
+        if m.get("type") == "error":
+            res["errors"].append({"ev": "script_error", "m": str(m.get("description") or "Frida script failed")[:200]})
+            return
+        p = m.get("payload")
+        if not isinstance(p, dict):
+            return
         ev = p.get("ev")
         if ev == "offer":
             res["offers"].append(p)
