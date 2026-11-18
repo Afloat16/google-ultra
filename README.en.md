@@ -51,6 +51,8 @@ Account file, one per line, fields separated by four dashes:
 email----password----recovery----2fa_secret----card----expiry----cvc----holder----zip
 ```
 
+Payment details are entered manually on the official device payment page. Verify the account and supply your real billing address; the script does not invent an address or submit card fields.
+
 Trailing fields can be empty. A fresh account without 2FA:
 
 ```

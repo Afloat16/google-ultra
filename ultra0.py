@@ -331,35 +331,13 @@ def add_account(email, password, totp_secret="") -> bool:
 
 
 def add_card(card: dict) -> bool:
-    """在 Google Pay 里添加一张卡（卡号/有效期/CVC/持卡人/邮编）。"""
+    """Let the user supply real billing details on the device."""
     if not card:
         return True
-    step(f"添加付款方式：{card['number'][-4:].rjust(len(card['number']), '*')}")
+    step("请在设备上完成付款方式设置")
     sh("shell", "am start -a android.intent.action.VIEW "
                 "-d 'https://pay.google.com/gp/w/u/0/home/paymentmethods'")
-    time.sleep(10)
-    if not tap_text("Add a payment method", "添加付款方式", "添加信用卡", "Add card"):
-        warn("没找到添加入口，跳过绑卡（可手动添加）")
-        return False
-    time.sleep(9)
-    # 依次填：卡号 → 月 → 年 → CVC → 姓名 → 地址 → 城市
-    edits = [n for n in nodes(ui_xml()) if "EditText" in n["cls"]]
-    mm = re.sub(r"\D", "", card["exp"])[:2] or "01"
-    yy = re.sub(r"\D", "", card["exp"])[2:][-2:] or "30"
-    seq = [card["number"], mm, yy, card["cvc"], card["holder"] or "CARD HOLDER",
-           "123 Main St", "Portland"]
-    for i, val in enumerate(seq):
-        edits = [n for n in nodes(ui_xml()) if "EditText" in n["cls"]]
-        if i >= len(edits):
-            break
-        tap(edits[i]["x"], edits[i]["y"]); time.sleep(0.6)
-        type_text(val); time.sleep(0.5)
-    if not tap_text("Save", "保存"):
-        wait_human("请手动点「保存」完成绑卡，然后继续", 240)
-    else:
-        time.sleep(8)
-    ok("绑卡流程已提交")
-    return True
+    return wait_human("请核对账号并手动填写真实付款信息和账单地址；保存完成后继续", 240)
 
 
 def current_play_account() -> str:
