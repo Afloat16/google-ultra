@@ -69,8 +69,9 @@ def find_adb() -> str:
     for c in ADB_CANDIDATES:
         if c == "adb" or Path(c).exists():
             try:
-                subprocess.run([c, "version"], capture_output=True, timeout=5)
-                return c
+                result = subprocess.run([c, "version"], capture_output=True, timeout=5)
+                if result.returncode == 0 and b"Android Debug Bridge" in result.stdout:
+                    return c
             except Exception:
                 continue
     sys.exit("❌ 找不到 adb，请安装 Android platform-tools 并加入 PATH")
