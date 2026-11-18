@@ -446,11 +446,23 @@ def run_trial(pid: int, wait=90, plan="auto") -> dict:
         elif ev and ("err" in ev or ev.startswith("no_")):
             res["errors"].append(p)
 
-    sc = sess.create_script(build_js(plan))
-    sc.on("message", on_msg)
-    sc.load()
-    time.sleep(wait)
-    return res
+    sc = None
+    try:
+        sc = sess.create_script(build_js(plan))
+        sc.on("message", on_msg)
+        sc.load()
+        time.sleep(wait)
+        return res
+    finally:
+        if sc is not None:
+            try:
+                sc.unload()
+            except Exception:
+                pass
+        try:
+            sess.detach()
+        except Exception:
+            pass
 
 
 def handle_verify(password="") -> bool:
