@@ -572,6 +572,11 @@ def process(email, password="", totp_secret="", add=True, card=None, plan="auto"
 # ---------- 入口 ----------
 def do_check():
     global ADB
+    try:
+        import frida
+    except ImportError:
+        warn("电脑没装 frida，请执行：pip3 install frida")
+        return 1
     ADB = find_adb()
     ok(f"adb：{ADB}")
     pick_device()
@@ -579,11 +584,7 @@ def do_check():
     ensure_network()
     ensure_frida_server()
     ensure_module_apk()
-    try:
-        import frida
-        ok(f"frida：{frida.__version__}")
-    except Exception:
-        warn("电脑没装 frida，请执行：pip3 install frida")
+    ok(f"frida：{frida.__version__}")
     ok("环境自检通过，可以开始跑号了")
     return 0
 
