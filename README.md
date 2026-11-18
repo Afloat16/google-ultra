@@ -90,6 +90,8 @@ python3 ultra0.py accounts.txt
 python3 ultra0.py --account "abc@gmail.com:密码:2FA密钥"
 ```
 
+也可以使用 `--account 邮箱 --password-stdin` 从标准输入读取密码，避免把密码放进进程参数或命令历史。标准输入只读取一行，保留密码前后的空格。不要同时在 `--account` 中写密码。
+
 想看结果，开订阅页确认一下：
 
 ```

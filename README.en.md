@@ -63,6 +63,8 @@ Single account:
 python3 ultra0.py --account "someone@gmail.com:password"
 ```
 
+Use `--account email --password-stdin` to read one password line from standard input without putting it in process arguments or shell history. Leading and trailing spaces are preserved. Do not combine this option with an inline password.
+
 Options:
 
 ```bash

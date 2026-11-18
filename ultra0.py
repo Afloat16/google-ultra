@@ -620,6 +620,7 @@ def main():
     ap = argparse.ArgumentParser(description="Google AI Ultra 0 元开通一键脚本")
     ap.add_argument("accounts", nargs="?", help="账号文件（每行 email----password----recovery----totp）")
     ap.add_argument("--account", help="单号：email:password:totp")
+    ap.add_argument("--password-stdin", action="store_true", help="从标准输入读取单号密码，避免写入命令行")
     ap.add_argument("--check", action="store_true", help="只做环境自检")
     ap.add_argument("--serial", default=None)
     ap.add_argument("--no-add", action="store_true", help="跳过自动加号（账号已在手机上）")
@@ -628,6 +629,14 @@ def main():
     ap.add_argument("--plan", default="auto", choices=["auto", "5x", "20x"],
                     help="auto=两档都查挑最长；5x=Ultra 20TB；20x=Ultra 30TB")
     a = ap.parse_args()
+    stdin_password = None
+    if a.password_stdin:
+        if not a.account or ":" in a.account:
+            ap.error("--password-stdin 需要 --account 邮箱，不能同时内联密码")
+        line = sys.stdin.readline()
+        if not line:
+            ap.error("标准输入没有密码")
+        stdin_password = line.rstrip("\r\n")
 
     ADB = find_adb()
     if a.check:
@@ -645,7 +654,7 @@ def main():
     rows = []
     if a.account:
         parts = a.account.split(":")
-        rows = [[parts[0], parts[1] if len(parts) > 1 else "", "", parts[2] if len(parts) > 2 else ""]]
+        rows = [[parts[0], stdin_password if stdin_password is not None else (parts[1] if len(parts) > 1 else ""), "", parts[2] if len(parts) > 2 else ""]]
     elif a.accounts:
         rows = parse_accounts(Path(a.accounts))
     else:
